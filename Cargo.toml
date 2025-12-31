@@ -1,0 +1,80 @@
+[package]
+name = "connate"
+version = "2.0.0-beta.1"
+edition = "2024"
+categories = ["command-line-interface", "command-line-utilities", "no_std"]
+description = "Linux service manager / init system"
+readme = "README.md"
+homepage = "https://github.com/paradigm/connate"
+repository = "https://github.com/paradigm/connate"
+license = "MIT"
+
+# ------------
+# build binary
+# ------------
+# - Sanity checks user configuration
+# - Generates pre-processed code to lessen runtime calculations
+build = "src/build/main.rs"
+
+# --------------
+# connate binary
+# --------------
+# - Service manager process
+[[bin]]
+name = "connate"
+path = "src/connate/main.rs"
+test = false # nolibc, nostd breaks tests
+doctest = false # nolibc, nostd breaks tests
+
+# -----------
+# conctl binary
+# -----------
+# - CLI utility to control connate binary
+[[bin]]
+name = "conctl"
+path = "src/conctl/main.rs"
+test = false # nolibc, nostd breaks tests
+doctest = false # nolibc, nostd breaks tests
+
+[features]
+# host-checks:
+# - If enabled, performs build-time checks that assume the connate will run on the host machine.
+# - E.g. checking if configured log file paths exist.
+# - If you plan to build and run connate on the same machine, enable this feature.
+# - If you are building connate on one machine for use on another, disable this feature.
+host-checks = []
+# settle:
+# - If enabled, adds per-service settle pipes for conctl to wait for stable states
+# - Adds up to two file descriptors per service (created lazily on first settle request)
+settle = []
+default = ["host-checks", "settle"]
+
+[dependencies]
+# Convert integral value to a string.  Used to do things like print a PID.
+itoa = { version = "1.0", default-features = false }
+# Direct, raw Linux system calls.  Used to avoid libc.
+syscalls = { version = "0.7", default-features = false }
+
+# The configuration system has `build.rs` effectively load the entire code base, and thus it expects
+# to see the same dependencies as the runtime.
+[build-dependencies]
+itoa = { version = "1.0", default-features = false }
+syscalls = { version = "0.7", default-features = false }
+
+# optimize for size
+[profile.release]
+codegen-units = 1
+debug = false
+lto = true
+opt-level = "z"
+panic = "abort"
+strip = true
+
+[profile.dev]
+lto = true
+opt-level = "z"
+panic = "abort"
+
+[profile.test]
+lto = true
+opt-level = "z"

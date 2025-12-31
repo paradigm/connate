@@ -1,0 +1,3 @@
+# Needed in Rust 1.92 to minimize release binary size
+[build]
+rustflags = ["-Cforce-unwind-tables=no"]

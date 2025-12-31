@@ -1,0 +1,85 @@
+//! System calls
+//!
+//! These are fundamentally unsafe.  See `src/shared/os` for safe wrappers.
+
+// This entire module is expected to be unsafe
+#![allow(clippy::missing_safety_doc)]
+
+mod chdir;
+mod clock_gettime;
+mod clone;
+mod clone3;
+mod close;
+mod dup;
+mod exec;
+mod exit;
+mod fcntl;
+mod fork;
+mod fstatat;
+mod ftruncate;
+mod getdents;
+mod getpid;
+mod getppid;
+mod ioctl;
+mod kill;
+mod lseek;
+mod memfd;
+mod mkdir;
+mod mount;
+mod nanosleep;
+mod open;
+mod pipe;
+mod poll;
+mod prctl;
+mod read;
+mod readlink;
+mod reboot;
+mod setsid;
+mod setuid;
+mod signalfd;
+mod sigprocmask;
+mod sync;
+mod umount;
+mod vfork;
+mod waitid;
+mod waitpid;
+mod write;
+pub use chdir::*;
+pub use clock_gettime::*;
+pub use clone::*;
+pub use clone3::*;
+pub use close::*;
+pub use dup::*;
+pub use exec::*;
+pub use exit::*;
+pub use fcntl::*;
+pub use fork::*;
+pub use fstatat::*;
+pub use ftruncate::*;
+pub use getdents::*;
+pub use getpid::*;
+pub use getppid::*;
+pub use ioctl::*;
+pub use kill::*;
+pub use lseek::*;
+pub use memfd::*;
+pub use mkdir::*;
+pub use mount::*;
+pub use nanosleep::*;
+pub use open::*;
+pub use pipe::*;
+pub use poll::*;
+pub use prctl::*;
+pub use read::*;
+pub use readlink::*;
+pub use reboot::*;
+pub use setsid::*;
+pub use setuid::*;
+pub use signalfd::*;
+pub use sigprocmask::*;
+pub use sync::*;
+pub use umount::*;
+pub use vfork::*;
+pub use waitid::*;
+pub use waitpid::*;
+pub use write::*;
